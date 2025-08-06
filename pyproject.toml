@@ -13,6 +13,7 @@ dependencies = [
 [project.scripts]
 gcsim = "gcsim_run_config:gcsim"
 gcsim-batch-weapons = "gcsim_run_config.weapons:main"
+gcsim-batch-artifacts = "gcsim_run_config.artifacts:main"
 
 [build-system]
 requires = ["uv_build>=0.8.5,<0.9.0"]
@@ -32,3 +33,8 @@ keyring-provider = "subprocess"
 name = "gcp-index"
 url = "https://oauth2accesstoken@us-west1-python.pkg.dev/gaymer-haus/python-public/simple/"
 publish-url = "https://oauth2accesstoken@us-west1-python.pkg.dev/gaymer-haus/python-public"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
