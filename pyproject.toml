@@ -1,6 +1,6 @@
 [project]
 name = "gcsim-run-config"
-version = "0.1.14"
+version = "0.1.15"
 description = "Add your description here"
 readme = "README.md"
 authors = []
@@ -14,6 +14,7 @@ dependencies = [
 gcsim = "gcsim_run_config:gcsim"
 gcsim-batch-weapons = "gcsim_run_config.weapons:main"
 gcsim-batch-artifacts = "gcsim_run_config.artifacts:main"
+gcsim-optimizer = "gcsim_run_config.optimizer:main"
 
 [build-system]
 requires = ["uv_build>=0.8.5,<0.9.0"]
