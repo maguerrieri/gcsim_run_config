@@ -47,7 +47,7 @@ def main():
     parser = argparse.ArgumentParser(description="Generate weapon scripts for a character.")
     parser.add_argument("script_file", help="The script file to process")
     weapons = Path('weapons').glob('*.txt')
-    parser.add_argument("weapon_type", help=f"The type of weapon to use; one of {[w.stem for w in weapons]}")
+    parser.add_argument("weapon_type", help=f"The type of weapon to use", choices=[w.stem for w in weapons])
     parser.add_argument("character_name", help="The name of the character; must be present in the script file")
     args = parser.parse_args()
 
