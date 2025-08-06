@@ -1,3 +1,9 @@
+.venv
+dist
+
+__pycache__
+*.pyc
+
 config.txt
 *output*/
 *output*
