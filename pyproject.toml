@@ -1,0 +1,33 @@
+[project]
+name = "gcsim-run-config"
+version = "0.1.6"
+description = "Add your description here"
+readme = "README.md"
+authors = []
+requires-python = ">=3.13"
+dependencies = [
+    "sh>=2.2.2",
+]
+
+[project.scripts]
+gcsim-batch-weapons = "gcsim_run_config.weapons:main"
+
+[build-system]
+requires = ["uv_build>=0.8.5,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = ""
+data = [
+    "artifacts",
+    "weapons",
+]
+
+[tool.uv]
+keyring-provider = "subprocess"
+
+[[tool.uv.index]]
+name = "gcp-index"
+url = "https://oauth2accesstoken@us-west1-python.pkg.dev/gaymer-haus/python-public/simple/"
+publish-url = "https://oauth2accesstoken@us-west1-python.pkg.dev/gaymer-haus/python-public"
+
