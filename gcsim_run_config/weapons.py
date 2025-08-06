@@ -7,7 +7,7 @@ from pathlib import Path
 from .util import gcsim
 
 
-WEAPONS_PATH = Path('weapons')
+WEAPONS_PATH = Path(__file__).parent / 'configs'
 
 
 def generate_script(script_filename: Path, weapon_input: str, character_input: str):
@@ -46,7 +46,7 @@ def generate_script(script_filename: Path, weapon_input: str, character_input: s
 def main():
     parser = argparse.ArgumentParser(description="Generate weapon scripts for a character.")
     parser.add_argument("script_file", help="The script file to process")
-    weapons = Path('weapons').glob('*.txt')
+    weapons = [path for path in WEAPONS_PATH.glob('*.txt') if path.stem != 'artifact']
     parser.add_argument("weapon_type", help=f"The type of weapon to use", choices=[w.stem for w in weapons])
     parser.add_argument("character_name", help="The name of the character; must be present in the script file")
     args = parser.parse_args()

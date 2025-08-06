@@ -1,6 +1,6 @@
 [project]
 name = "gcsim-run-config"
-version = "0.1.15"
+version = "0.1.16"
 description = "Add your description here"
 readme = "README.md"
 authors = []
@@ -15,6 +15,7 @@ gcsim = "gcsim_run_config:gcsim"
 gcsim-batch-weapons = "gcsim_run_config.weapons:main"
 gcsim-batch-artifacts = "gcsim_run_config.artifacts:main"
 gcsim-optimizer = "gcsim_run_config.optimizer:main"
+gcsim-generate-batch = "gcsim_run_config.generate_batch:main"
 
 [build-system]
 requires = ["uv_build>=0.8.5,<0.9.0"]
@@ -22,10 +23,6 @@ build-backend = "uv_build"
 
 [tool.uv.build-backend]
 module-root = ""
-data = [
-    "artifacts",
-    "weapons",
-]
 
 [tool.uv]
 keyring-provider = "subprocess"
