@@ -1,15 +1,17 @@
 [project]
 name = "gcsim-run-config"
-version = "0.1.6"
+version = "0.1.14"
 description = "Add your description here"
 readme = "README.md"
 authors = []
 requires-python = ">=3.13"
 dependencies = [
-    "sh>=2.2.2",
+    "gcsim-linux-amd64 ; platform_machine == 'x86_64' and sys_platform == 'linux'",
+    "gcsim-windows-amd64 ; platform_machine == 'AMD64' and sys_platform == 'win32'",
 ]
 
 [project.scripts]
+gcsim = "gcsim_run_config:gcsim"
 gcsim-batch-weapons = "gcsim_run_config.weapons:main"
 
 [build-system]
@@ -30,4 +32,3 @@ keyring-provider = "subprocess"
 name = "gcp-index"
 url = "https://oauth2accesstoken@us-west1-python.pkg.dev/gaymer-haus/python-public/simple/"
 publish-url = "https://oauth2accesstoken@us-west1-python.pkg.dev/gaymer-haus/python-public"
-
