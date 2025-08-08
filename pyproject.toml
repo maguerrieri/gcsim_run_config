@@ -1,5 +1,5 @@
 [project]
-name = "gcsim-run-config"
+name = "gcsim-batcher"
 version = "0.1.18"
 description = "Add your description here"
 readme = "README.md"

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from gcsim_run_config.config import PlainTextConfigType, Test, load_config
+from gcsim_batcher.config import PlainTextConfigType, Test, load_config
 
 
 def test_load_yaml_config():

@@ -140,7 +140,7 @@ def generate_multi_scripts(script_file: Path, test_configuration_file: Path):
         logger.error(f"Test configuration file {test_configuration_file} does not exist.")
         return
 
-    from gcsim_run_config.config import (  # Import here to avoid circular imports
+    from gcsim_batcher.config import (  # Import here to avoid circular imports
         Test, load_config)
     config = load_config(test_configuration_file)
 

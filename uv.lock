@@ -16,16 +16,7 @@ wheels = [
 ]
 
 [[package]]
-name = "gcsim-linux-amd64"
-version = "0.1.0"
-source = { registry = "https://us-west1-python.pkg.dev/gaymer-haus/python-public/simple/" }
-sdist = { url = "https://us-west1-python.pkg.dev/gaymer-haus/python-public/gcsim-linux-amd64/gcsim_linux_amd64-0.1.0.tar.gz", hash = "sha256:94168d635c097aee450aaa0f346a6dfeb7b6a7318bdb4ddf076cc5db4a543309" }
-wheels = [
-    { url = "https://us-west1-python.pkg.dev/gaymer-haus/python-public/gcsim-linux-amd64/gcsim_linux_amd64-0.1.0-py3-none-any.whl", hash = "sha256:15203c9200476f9aedd798e663fe8d8b5866bee4f2dcc452884ee855f1960fe6" },
-]
-
-[[package]]
-name = "gcsim-run-config"
+name = "gcsim-batcher"
 version = "0.1.18"
 source = { editable = "." }
 dependencies = [
@@ -48,6 +39,15 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=8.4.1" }]
+
+[[package]]
+name = "gcsim-linux-amd64"
+version = "0.1.0"
+source = { registry = "https://us-west1-python.pkg.dev/gaymer-haus/python-public/simple/" }
+sdist = { url = "https://us-west1-python.pkg.dev/gaymer-haus/python-public/gcsim-linux-amd64/gcsim_linux_amd64-0.1.0.tar.gz", hash = "sha256:94168d635c097aee450aaa0f346a6dfeb7b6a7318bdb4ddf076cc5db4a543309" }
+wheels = [
+    { url = "https://us-west1-python.pkg.dev/gaymer-haus/python-public/gcsim-linux-amd64/gcsim_linux_amd64-0.1.0-py3-none-any.whl", hash = "sha256:15203c9200476f9aedd798e663fe8d8b5866bee4f2dcc452884ee855f1960fe6" },
+]
 
 [[package]]
 name = "gcsim-windows-amd64"
