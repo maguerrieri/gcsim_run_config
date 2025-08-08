@@ -52,9 +52,9 @@ def generate_weapon_scripts(script_path: Path, character_name: str, artifact_set
 
     def make_file_name(weapon: str, refine: int):
         if artifact_sets:
-            return f"{character_name}_{'_'.join(artifact_sets)}_weapon_{weapon}_{refine}.txt"
+            return f"{character_name}_{'_'.join(artifact_sets)}_weapon_{weapon}_r{refine}.txt"
         else:
-            return f"{character_name}_weapon_{weapon}_{refine}.txt"
+            return f"{character_name}_weapon_{weapon}_r{refine}.txt"
 
     for weapon, refine in [(weapon, refine) for refine in (1, 5) for weapon in weapons]:
         lines = update_weapon(script_lines, character_name, weapon, refine)
