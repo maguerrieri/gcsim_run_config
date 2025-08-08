@@ -12,7 +12,7 @@ Open [their website](https://docs.astral.sh/uv/getting-started/installation/#sta
 **Step 2:** **Download Sim Batcher**
 
 Open a terminal (such as PowerShell) wherever you would like Sim Batcher to run and run the command: 
-uv tool install --upgrade --index https://us-west1-python.pkg.dev/gaymer-haus/python-public/simple/ gcsim_run_config
+uv tool install --upgrade --index https://us-west1-python.pkg.dev/gaymer-haus/python-public/simple/ gcsim-batcher
 
 Congrats! You're all set up and ready to go.
 

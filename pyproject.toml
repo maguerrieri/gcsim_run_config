@@ -12,10 +12,10 @@ dependencies = [
 ]
 
 [project.scripts]
-gcsim = "gcsim_run_config:gcsim"
-gcsim-generate-batch = "gcsim_run_config.generate:main"
-gcsim-optimizer = "gcsim_run_config.optimizer:main"
-gcsim-run-batch = "gcsim_run_config.run:main"
+gcsim = "gcsim_batcher:gcsim"
+gcsim-generate-batch = "gcsim_batcher.generate:main"
+gcsim-optimizer = "gcsim_batcher.optimizer:main"
+gcsim-run-batch = "gcsim_batcher.run:main"
 
 [build-system]
 requires = ["uv_build>=0.8.5,<0.9.0"]
