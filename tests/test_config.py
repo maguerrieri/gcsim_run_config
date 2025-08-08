@@ -8,14 +8,14 @@ def test_load_yaml_config():
     assert config[0] == Test(
         character="bennett",
         test=Test.ArtifactTest(
-            weapon_name="archaicpetra",
+            weapon_name="absolution",
             artifact_sets=[["no", "esf"], ["esf"]]
             )
         )
     assert config[1] == Test(
         character="bennett",
         test=Test.ArtifactTest(
-            weapon_name="blizzardstrayer",
+            weapon_name="amenomakaguechi",
             artifact_sets=[["esf", "no"], ["no"]]
             )
         )
@@ -23,13 +23,13 @@ def test_load_yaml_config():
         character="bennett",
         test=Test.WeaponTest(
             artifact_set=["no"],
-            weapons=["bloodstainedchivalry"]
+            weapons=["aquilafavonia"]
             )
         )
     assert config[3] == Test(
         character="bennett",
         test=Test.ArtifactTest(
-            weapon_name="bloodstainedchivalry",
+            weapon_name="aquilafavonia",
             artifact_sets=[["no"], ["esf"]]
             )
         )

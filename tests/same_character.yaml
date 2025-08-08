@@ -1,18 +1,18 @@
 # yaml-language-server: $schema=../configs.schema.json
 character: bennett
 tests:
-- weapon: archaicpetra
+- weapon: absolution
   artifact_sets:
   - [no, esf]
   - [esf]
-- weapon: blizzardstrayer
+- weapon: amenomakaguechi
   artifact_sets:
   - [esf, no]
   - [no]
 - artifact_set: [no]
   weapons:
-  - bloodstainedchivalry
-- weapon: bloodstainedchivalry
+  - aquilafavonia
+- weapon: aquilafavonia
   artifact_sets:
   - [no]
   - [esf]
