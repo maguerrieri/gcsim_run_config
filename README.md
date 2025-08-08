@@ -26,7 +26,7 @@ Remember, if this is for use in a KQM guide, your config should follow [KQMS for
 
 Step 2:** **Narrow Down Weapons/Arti Sets**
 
-In the location you picked, create a new txt file with only the weapons/artifacts to be considered using either their full name with no spaces, no uppercase, and no special characters, or using a nickname [recognized by gcsim](https://docs.gcsim.app/reference/), one per row. Name your file whatever you want.
+In the location you picked, create a new txt file with only the weapons/artifacts to be considered using either their full name with no spaces, no uppercase, and no special characters, or using a nickname [recognized by gcsim](https://docs.gcsim.app/reference/), one per row. To consider 2pc2pc artifact set combinations, write both sets on the same row- the program will know that since they're in the same entry they should be two 2pc sets and not one 4pc. Name your file whatever you want.
 For example, I want to compare Azurelight to LoFI and Freedom-Sworn since I'm very excited about Skirk's strong melt damage potential with Nahida buffing her, so I might make a file named SuperCoolSkirkWeps that just looks like the below lines:
 
 azurelight
@@ -40,7 +40,7 @@ NOTE TO JAM: WRITE THE README FOR MULTIS TOMORROW
 Open your terminal again, and run the command below changing terms as needed: 
 gcsim-generate-batch.exe .\yoursimconfigname.txt {weapon,artifact,multi} character .\yourgearsubsetname.txt batchfoldername
 
-"yoursimconfigname" should be your sim config txt file name. {weapon,artifact,multi} means you should write weapon for a weapon comparison, artifact for an artifact comparison, or multi if you used the multi variable option in Step 2. "character" should be the character. "yourgearsubsetname" should be the name of the txt file you set up in Step 2. "batchfoldername" should be the name of the folder where the batch of configs is going to go.
+"yoursimconfigname" should be your sim config txt file name. {weapon,artifact,multi} means you should write weapon for a weapon comparison, artifact for an artifact comparison, or multi if you used the multi variable option in Step 2. "character" should be the character. "yourgearsubsetname" should be the name of the txt file you set up in Step 2. "batchfoldername" should be the name of the folder the program will create to store all these configs- if you leave this input blank it'll automatically name it character_{weapon,artifact,multi}s.
 
 Example:
 gcsim-generate-batch.exe .\SkirkBurnmelt.txt weapon skirk .\SuperCoolSkirkWeps.txt SkirkBurnmeltWepBatch
