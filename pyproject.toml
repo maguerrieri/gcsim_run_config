@@ -8,14 +8,14 @@ requires-python = ">=3.13"
 dependencies = [
     "gcsim-linux-amd64 ; platform_machine == 'x86_64' and sys_platform == 'linux'",
     "gcsim-windows-amd64 ; platform_machine == 'AMD64' and sys_platform == 'win32'",
+    "yamlcore>=0.0.4",
 ]
 
 [project.scripts]
 gcsim = "gcsim_run_config:gcsim"
-gcsim-batch-weapons = "gcsim_run_config.weapons:main"
-gcsim-batch-artifacts = "gcsim_run_config.artifacts:main"
+gcsim-generate-batch = "gcsim_run_config.generate:main"
 gcsim-optimizer = "gcsim_run_config.optimizer:main"
-gcsim-generate-batch = "gcsim_run_config.generate_batch:main"
+gcsim-run-batch = "gcsim_run_config.run:main"
 
 [build-system]
 requires = ["uv_build>=0.8.5,<0.9.0"]

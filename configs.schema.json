@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://gaymer.haus/gcsim-run-config/configs.schema.json",
+  "title": "gcsim-run-config batch schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tests"],
+  "properties": {
+    "character": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The character name present in the gcsim script (e.g. 'bennett')."
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          { "$ref": "#/definitions/WeaponTest" },
+          { "$ref": "#/definitions/ArtifactTest" }
+        ]
+      },
+      "description": "A list of tests. Each item is either an artifact test (one weapon with many artifact set choices) or a weapon test (one artifact set with many weapons)."
+    }
+  },
+  "definitions": {
+    "ArtifactSetChoice": {
+      "type": "array",
+      "description": "Represents either a 4pc set as [set] or a 2pc/2pc combination as [set1, set2]. Values should use names or nicknames recognized by gcsim (e.g. 'no', 'esf', 'instructor').",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "WeaponTest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_set", "weapons"],
+      "properties": {
+        "artifact_set": { "$ref": "#/definitions/ArtifactSetChoice" },
+        "weapons": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "List of weapon names to test with the given artifact set. Each item is a weapon name recognized by gcsim."
+        }
+      },
+      "description": "Test many weapons with a single artifact set."
+    },
+    "ArtifactTest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["weapon", "artifact_sets"],
+      "properties": {
+        "weapon": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The weapon name to use for the test"
+        },
+        "artifact_sets": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/ArtifactSetChoice" },
+          "description": "List of artifact set choices to test for the given weapon. Each item is [set] for 4pc or [set1, set2] for 2pc/2pc."
+        }
+      },
+      "description": "Test many artifact sets with a single weapon."
+    }
+  },
+  "examples": [
+    {
+      "character": "some_character",
+      "tests": [
+        { "weapon": "some_weapon", "artifact_sets": [["no", "esf"], ["esf"]] },
+        { "artifact_set": ["no"], "weapons": ["some_other_weapon"] },
+        { "weapon": "some_third_weapon", "artifact_sets": [["no"], ["esf"]] }
+      ]
+    },
+    {
+      "tests": [
+        {
+            "character": "some_character",
+            "weapon": "some_weapon",
+            "artifact_sets": [["no", "esf"], ["esf"]]
+        },
+        { "artifact_set": ["no"], "weapons": ["some_other_weapon"] },
+        { "weapon": "some_third_weapon", "artifact_sets": [["no"], ["esf"]] }
+      ]
+    }
+  ]
+}
