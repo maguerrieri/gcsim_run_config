@@ -33,12 +33,14 @@ azurelight
 lofi
 freedomsworn
 
+NOTE TO JAM: WRITE THE README FOR MULTIS TOMORROW
+
 **Step 3:** **Create Config Batch**
 
 Open your terminal again, and run the command below changing terms as needed: 
-gcsim-generate-batch.exe .\yoursimconfigname.txt {weapon,artifact,multi} character .\yourgearsubsetname.txt outputfoldername
+gcsim-generate-batch.exe .\yoursimconfigname.txt {weapon,artifact,multi} character .\yourgearsubsetname.txt batchfoldername
 
-"yoursimconfigname" should be your sim config txt file name. {weapon,artifact,multi} means you should write weapon for a weapon comparison, artifact for an artifact comparison, or multi if you used the multi variable option in Step 2. "character" should be the character. "yourgearsubsetname" should be the name of the txt file you set up in Step 2. "outputfoldername" should be the name of the folder where the batch of configs is going to go.
+"yoursimconfigname" should be your sim config txt file name. {weapon,artifact,multi} means you should write weapon for a weapon comparison, artifact for an artifact comparison, or multi if you used the multi variable option in Step 2. "character" should be the character. "yourgearsubsetname" should be the name of the txt file you set up in Step 2. "batchfoldername" should be the name of the folder where the batch of configs is going to go.
 
 Example:
 gcsim-generate-batch.exe .\SkirkBurnmelt.txt weapon skirk .\SuperCoolSkirkWeps.txt SkirkBurnmeltWepBatch
@@ -48,10 +50,12 @@ This should generate a whole batch of sim configs for each gearing option you li
 **Step 4:** **Run Config Batch**
 
 Run the command below changing terms as needed again: 
-gcsim-run-batch.exe outputfoldername
+gcsim-run-batch.exe batchfoldername outputsheetname
+
+"batchfoldername" is the same as above, the name of the folder where all those configs Step 3 made went. "outputsheetname" is the name of the csv where your results will be displayed.
 
 Example:
-gcsim-generate-batch SkirkBurnmeltWepBatch
+gcsim-generate-batch.exe SkirkBurnmeltWepBatch SkirkBurnmeltWepSheetRaw
 
 This should start going through all options one by one, optimizing them and then opening a browser window with the sim results. This will take a few minutes, depending on your CPU. Get up, stretch, get some water, pick up any trash you have sitting on your desk. Take a picture of your cat. Send a picture of your cat to someone. Say "I love you" to your cat. Check if it's done. Check Discord. Check if it's done again. Check your budget to consider if you can afford a better CPU. Check if it's done again. 
 
