@@ -55,7 +55,7 @@ gcsim-run-batch.exe batchfoldername outputsheetname
 "batchfoldername" is the same as above, the name of the folder where all those configs Step 3 made went. "outputsheetname" is the name of the csv where your results will be displayed.
 
 Example:
-gcsim-generate-batch.exe SkirkBurnmeltWepBatch SkirkBurnmeltWepSheetRaw
+gcsim-run-batch.exe SkirkBurnmeltWepBatch SkirkBurnmeltWepSheetRaw
 
 This should start going through all options one by one, optimizing them and then opening a browser window with the sim results. This will take a few minutes, depending on your CPU. Get up, stretch, get some water, pick up any trash you have sitting on your desk. Take a picture of your cat. Send a picture of your cat to someone. Say "I love you" to your cat. Check if it's done. Check Discord. Check if it's done again. Check your budget to consider if you can afford a better CPU. Check if it's done again. 
 
