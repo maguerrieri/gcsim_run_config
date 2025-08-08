@@ -20,33 +20,38 @@ Congrats! You're all set up and ready to go.
 
 **Step 1:** **Create or Find a gcsim Config**
 
-Create a txt file to hold your config. Name it whatever you want- for example, SkirkBurnmeltGuideSims. Make sure to put it in whatever location you will be running Sim Batcher. Then, either write a gcsim config for the team in question, or copy one from [gcsim's public database](https://simpact.app/). 
+Create a txt file to hold your config. Name it whatever you want- for example, SkirkBurnmelt. Make sure to put it in whatever location/folder you will be running Sim Batcher, or else you'll have to modify the commands from these instructions to help the program find your configs. Then, either write a gcsim config for the team in question, or copy one from [gcsim's public database](https://simpact.app/). 
 
 Remember, if this is for use in a KQM guide, your config should follow [KQMS for gcsim](https://compendium.keqingmains.com/#gcsim). Even if this is not for a guide, good comments make it MUCH easier for others to read your code.
 
-**OPTIONAL!!! Step 2:** **Narrow Down Weapons/Arti Sets**
+Step 2:** **Narrow Down Weapons/Arti Sets**
 
-In the Sim Batcher folder you just downloaded, open either the folder named weapons or the folder named artifacts. If you would like to narrow down which sets to consider, create a new txt file with only the weapons/artifacts to be considered using either their full name with no spaces, no uppercase, and no special characters, or using a nickname [recognized by gcsim](https://docs.gcsim.app/reference/). You can copy the full list from the other txt files in the folder and just delete useless ones. For example, in my Skirk Burnmelt team, I know Blizzard Strayer will be useless, so I'll delete that, but since she'll deal so little damage I'll leave Instructor in case it's worth it to buff my Emilie. Name this whatever you want as well- for example, SkirkSets.
+In the location you picked, create a new txt file with only the weapons/artifacts to be considered using either their full name with no spaces, no uppercase, and no special characters, or using a nickname [recognized by gcsim](https://docs.gcsim.app/reference/), one per row. Name your file whatever you want.
+For example, I want to compare Azurelight to LoFI and Freedom-Sworn since I'm very excited about Skirk's strong melt damage potential with Nahida buffing her, so I might make a file named SuperCoolSkirkWeps that just looks like the below lines:
+
+azurelight
+lofi
+freedomsworn
 
 **Step 3:** **Create Config Batch**
 
 Open your terminal again, and run the command below changing terms as needed: 
-gcsim-batch-weapons.exe '.\yourconfigname.txt' batchname character
-mv '.\character batchname output\' ./output
+gcsim-generate-batch.exe .\yoursimconfigname.txt {weapon,artifact,multi} character .\yourgearsubsetname.txt outputfoldername
 
-"yourconfigname" should be your config txt file name. "batchname" should be what set of options you're trying to calc: artifacts, bows, catalysts, claymores, polearms, swords, or the name of the txt file you set up in Step 2 if you're a mega efficient gamer. "character" should be the character.
+"yoursimconfigname" should be your sim config txt file name. {weapon,artifact,multi} means you should write weapon for a weapon comparison, artifact for an artifact comparison, or multi if you used the multi variable option in Step 2. "character" should be the character. "yourgearsubsetname" should be the name of the txt file you set up in Step 2. "outputfoldername" should be the name of the folder where the batch of configs is going to go.
 
 Example:
-gcsim-batch-weapons.exe '.\SkirkBurnmeltGuideSims.txt' SkirkSets Skirk
-mv '.\skirk SkirkSets output\' ./output
+gcsim-generate-batch.exe .\SkirkBurnmelt.txt weapon skirk .\SuperCoolSkirkWeps.txt SkirkBurnmeltWepBatch
+
+This should generate a whole batch of sim configs for each gearing option you listed and store them in a folder.
 
 **Step 4:** **Run Config Batch**
 
 Run the command below changing terms as needed again: 
-gcsim-generate-batch batchname output test
+gcsim-run-batch.exe outputfoldername
 
 Example:
-gcsim-generate-batch SkirkSets output test
+gcsim-generate-batch SkirkBurnmeltWepBatch
 
 This should start going through all options one by one, optimizing them and then opening a browser window with the sim results. This will take a few minutes, depending on your CPU. Get up, stretch, get some water, pick up any trash you have sitting on your desk. Take a picture of your cat. Send a picture of your cat to someone. Say "I love you" to your cat. Check if it's done. Check Discord. Check if it's done again. Check your budget to consider if you can afford a better CPU. Check if it's done again. 
 
