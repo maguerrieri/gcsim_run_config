@@ -174,7 +174,11 @@ def main():
     artifact_parser = subparsers.add_parser("artifact", help="Generate artifact scripts")
     artifact_parser.add_argument("character_name", help="The name of the character; must be present in the script file")
     artifact_parser.add_argument("file", help="The artifact input file", type=Path)
-    artifact_parser.set_defaults(func=lambda args: generate_artifacts_scripts(args.script_file, args.character_name, None, args.file.read_text().strip().splitlines()))
+    artifact_parser.set_defaults(func=lambda args: generate_artifacts_scripts(
+        args.script_file,
+        args.character_name,
+        None,
+        [s.split() for s in args.file.read_text().strip().splitlines()]))
 
     multi_parser = subparsers.add_parser("multi", help="Generate scripts from various combinations of character, weapon, and artifact sets")
     multi_parser.add_argument("test_configuration_file", help="Configuration file for the test", type=Path)
