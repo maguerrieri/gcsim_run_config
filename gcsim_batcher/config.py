@@ -24,6 +24,7 @@ class Test:
     class ArtifactTest:
         weapon_name: str | None
         artifact_sets: list[list[str]]
+        output_directory: str | None = None
         def __post_init__(self):
             logger.debug(f"Creating ArtifactTest with weapon_name={self.weapon_name} and artifact_sets={self.artifact_sets}")
             for artifact_set in self.artifact_sets:
@@ -34,6 +35,7 @@ class Test:
     class WeaponTest:
         artifact_set: list[str] | None
         weapons: list[str]
+        output_directory: str | None = None
 
     type Test = ArtifactTest | WeaponTest
 
@@ -55,10 +57,11 @@ def _config_from_yaml_list(data: list, character: str | None = None) -> list[Tes
             """
             Parse a test configuration from a dictionary.
             """
+            output_directory = item.get('output_directory', None)
             if 'artifact_sets' in item:
-                return Test.ArtifactTest(item['weapon'], item['artifact_sets'])
+                return Test.ArtifactTest(item['weapon'], item['artifact_sets'], output_directory)
             elif 'weapons' in item:
-                return Test.WeaponTest(item['artifact_set'], item['weapons'])
+                return Test.WeaponTest(item['artifact_set'], item['weapons'], output_directory)
             else:
                 raise ValueError(f"Invalid test configuration in YAML data: {item}.")
 
@@ -67,7 +70,10 @@ def _config_from_yaml_list(data: list, character: str | None = None) -> list[Tes
     return [_parse_test(item) for item in data]
 
 
-def load_config(file: Path, config_type: PlainTextConfigType | None = None, character: str | None = None) -> list[Test]:
+def load_config(file: Path,
+                output_directory: Path | None = None,
+                config_type: PlainTextConfigType | None = None,
+                character: str | None = None) -> tuple[Path | None, list[Test]]:
     """
     Load a configuration file; this may either be YAML, in which case it contains a list of configuration objects (see
     schema for details), or a plain test file containing a list of weapon or artifact names. In the latter case, which
@@ -80,11 +86,20 @@ def load_config(file: Path, config_type: PlainTextConfigType | None = None, char
             data = yaml.load(f, Loader=yamlcore.CoreLoader) # `yamlcore` doesn't parse `no` as `False` 🙄
             logger.debug(f"Loaded YAML data from {file}: {data} (type {type(data)})")
             if isinstance(data, list):
-                return _config_from_yaml_list(data)
+                return None, _config_from_yaml_list(data)
             elif isinstance(data, dict):
-                if 'character' in data and 'tests' in data:
-                    logger.debug(f"loading {file} as YAML with character {data['character']} and tests {data['tests']}")
-                    return _config_from_yaml_list(data['tests'], character=data['character'])
+                if 'tests' in data:
+                    if output_directory:
+                        parent_dir = output_directory
+                    elif 'output_directory' in data:
+                        parent_dir = file.parent / data['output_directory']
+                    else:
+                        parent_dir = None
+
+                    logger.debug(f"loading {file} as YAML with character {data.get('character')} and tests "
+                                 f"{data['tests']}")
+                    return parent_dir, _config_from_yaml_list(data['tests'],
+                                                              character=data.get('character', None))
                 else:
                     raise ValueError("YAML file must contain a character and list of configuration objects.")
             else:
@@ -97,8 +112,8 @@ def load_config(file: Path, config_type: PlainTextConfigType | None = None, char
         content = f.read().strip().splitlines()
 
     if config_type == PlainTextConfigType.WEAPON:
-        return [Test(character=character, test=Test.WeaponTest(artifact_set=None, weapons=content))]
+        return None, [Test(character=character, test=Test.WeaponTest(artifact_set=None, weapons=content))]
     elif config_type == PlainTextConfigType.ARTIFACT:
-        return [Test(character=character, test=Test.ArtifactTest(weapon_name=None, artifact_sets=[line.split(" ") for line in content]))]
+        return None, [Test(character=character, test=Test.ArtifactTest(weapon_name=None, artifact_sets=[line.split(" ") for line in content]))]
     else:
         raise ValueError(f"Unsupported config type: {config_type}")

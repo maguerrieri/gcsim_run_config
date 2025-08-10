@@ -16,3 +16,4 @@ tests:
   artifact_sets:
   - [no]
   - [esf]
+  output_directory: "custom_output"

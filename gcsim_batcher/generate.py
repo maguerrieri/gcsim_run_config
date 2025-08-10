@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+from enum import StrEnum
 import logging
 import re
 from pathlib import Path
@@ -11,6 +12,28 @@ from .util import DEBUG
 
 logging.basicConfig(level=logging.DEBUG if DEBUG else logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+class Mode(StrEnum):
+    WEAPON = "weapon"
+    ARTIFACT = "artifact"
+    MULTI = "multi"
+
+def _output_directory_name(output_directory: Path | str | None,
+                           script_file: Path,
+                           character_name: str | None,
+                           mode: Mode):
+    if output_directory:
+        logger.debug(f"Using specified output directory: {output_directory} for {character_name} in {mode} mode.")
+        return Path(output_directory)
+    elif mode == Mode.MULTI:
+        logger.debug(f"Using multi mode for output directory ({output_directory} / 'configs').")
+        return Path(output_directory or "configs")
+    elif character_name is None:
+        raise ValueError("Character name must be specified for non-multi modes.")
+    else:
+        logger.debug(f"Using default output directory for {character_name} in {mode} mode.")
+        return Path("_".join([script_file.stem, character_name, mode]))
 
 
 def read_script(script_path: Path, character_name: str):
@@ -38,12 +61,18 @@ def update_weapon(script_lines: list[str], character_name: str, weapon_name: str
     return new_lines
 
 
-def generate_weapon_scripts(script_path: Path, character_name: str, artifact_sets: list[str] | None, weapons: list[str]):
+def generate_weapon_scripts(script_path: Path,
+                            character_name: str,
+                            artifact_sets: list[str] | None,
+                            weapons: list[str],
+                            output_directory: Path):
+    logger.debug(f"Generating artifact scripts for {character_name} with sets {artifact_sets} and weapons {weapons} in {output_directory}.")
+
     script = read_script(script_path, character_name)
     if script is None:
         return
 
-    out_path = Path(f'{character_name}_weapons')
+    out_path = output_directory
     out_path.mkdir(parents=True, exist_ok=True)
 
     script_lines = script.splitlines()
@@ -94,12 +123,15 @@ Weapon = NamedTuple('Weapon', [('name', str), ('refine', int)])
 def generate_artifacts_scripts(script_path: Path,
                                character_name: str,
                                weapon: Weapon | None,
-                               artifact_sets: list[list[str]]):
+                               artifact_sets: list[list[str]],
+                               output_directory: Path):
+    logger.debug(f"Generating artifact scripts for {character_name} with weapon {weapon} and sets {artifact_sets} in {output_directory}.")
+
     script = read_script(script_path, character_name)
     if script is None:
         return
 
-    out_path = Path(f'{character_name}_artifacts')
+    out_path = output_directory
     out_path.mkdir(parents=True, exist_ok=True)
 
     script_lines = script.splitlines()
@@ -135,14 +167,16 @@ def generate_artifacts_scripts(script_path: Path,
         logger.info(f"Generated scripts for {character_name} with 2pc artifact combinations in {out_path}.")
 
 
-def generate_multi_scripts(script_file: Path, test_configuration_file: Path):
+def generate_multi_scripts(script_file: Path, test_configuration_file: Path, output_directory: Path | None = None):
     if not test_configuration_file.exists():
         logger.error(f"Test configuration file {test_configuration_file} does not exist.")
         return
 
     from gcsim_batcher.config import (  # Import here to avoid circular imports
         Test, load_config)
-    config = load_config(test_configuration_file)
+    config_root, config = load_config(test_configuration_file, output_directory=output_directory)
+    output_root = config_root or _output_directory_name(output_directory, script_file, None, Mode.MULTI)
+    logger.debug(f"Output root directory: {output_root}")
 
     for test in config:
         if isinstance(test.test, Test.ArtifactTest):
@@ -152,10 +186,30 @@ def generate_multi_scripts(script_file: Path, test_configuration_file: Path):
                     weapon = Weapon(test.test.weapon_name, refine)
                 else:
                     weapon = None
-                generate_artifacts_scripts(script_file, test.character, weapon, test.test.artifact_sets)
+
+                generate_artifacts_scripts(
+                    script_file,
+                    test.character,
+                    weapon,
+                    test.test.artifact_sets,
+                    output_root / _output_directory_name(test.test.output_directory,
+                                                         script_file,
+                                                         test.character,
+                                                         Mode.ARTIFACT)
+                )
         elif isinstance(test.test, Test.WeaponTest):
             logger.info(f"Generating weapon scripts for character {test.character} with artifact set {test.test.artifact_set}, weapons {test.test.weapons}.")
-            generate_weapon_scripts(script_file, test.character, test.test.artifact_set, test.test.weapons)
+            if not (test.test.output_directory or output_directory):
+                raise ValueError("No output directory specified for weapon test.")
+
+            generate_weapon_scripts(
+                script_file,
+                test.character,
+                test.test.artifact_set,
+                test.test.weapons,
+                output_root / _output_directory_name(test.test.output_directory, script_file, test.character, Mode.WEAPON
+                )
+            )
         else:
             logger.warning(f"Unknown test type for character {test.character}. Skipping.")
 
@@ -163,13 +217,23 @@ def generate_multi_scripts(script_file: Path, test_configuration_file: Path):
 def main():
     parser = argparse.ArgumentParser(description="Generate testing scripts for a character.")
     parser.add_argument("script_file", help="The script file to process", type=Path)
+    parser.add_argument(
+        "--output_directory",
+        help="The directory to save the generated scripts",
+        type=Path)
 
     subparsers = parser.add_subparsers(required=True)
 
     weapon_parser = subparsers.add_parser("weapon", help="Generate weapon scripts")
     weapon_parser.add_argument("character_name", help="The name of the character; must be present in the script file")
     weapon_parser.add_argument("file", help="The weapon input file", type=Path)
-    weapon_parser.set_defaults(func=lambda args: generate_weapon_scripts(args.script_file, args.character_name, None, args.file.read_text().strip().splitlines()))
+    weapon_parser.set_defaults(func=lambda args: generate_weapon_scripts(
+        args.script_file,
+        args.character_name,
+        None,
+        args.file.read_text().strip().splitlines(),
+        _output_directory_name(args.output_directory, args.script_file, args.character_name, Mode.WEAPON)
+    ))
 
     artifact_parser = subparsers.add_parser("artifact", help="Generate artifact scripts")
     artifact_parser.add_argument("character_name", help="The name of the character; must be present in the script file")
@@ -178,11 +242,17 @@ def main():
         args.script_file,
         args.character_name,
         None,
-        [s.split() for s in args.file.read_text().strip().splitlines()]))
+        [s.split() for s in args.file.read_text().strip().splitlines()],
+        _output_directory_name(args.output_directory, args.script_file, args.character_name, Mode.ARTIFACT)
+    ))
 
     multi_parser = subparsers.add_parser("multi", help="Generate scripts from various combinations of character, weapon, and artifact sets")
     multi_parser.add_argument("test_configuration_file", help="Configuration file for the test", type=Path)
-    multi_parser.set_defaults(func=lambda args: generate_multi_scripts(args.script_file, args.test_configuration_file))
+    multi_parser.set_defaults(func=lambda args: generate_multi_scripts(
+        args.script_file,
+        args.test_configuration_file,
+        _output_directory_name(args.output_directory, args.script_file, None, Mode.MULTI)
+    ))
 
     args = parser.parse_args()
 

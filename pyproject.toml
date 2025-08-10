@@ -36,3 +36,7 @@ publish-url = "https://oauth2accesstoken@us-west1-python.pkg.dev/gaymer-haus/pyt
 dev = [
     "pytest>=8.4.1",
 ]
+
+[tool.pytest.ini_options]
+collect_imported_tests = false
+testpaths = ["tests"]

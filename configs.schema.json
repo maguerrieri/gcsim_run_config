@@ -6,6 +6,10 @@
   "additionalProperties": false,
   "required": ["tests"],
   "properties": {
+    "output_directory": {
+      "type": "string",
+      "description": "Root directory to save all generated scripts. Individual tests' directories will be placed here. Relative to this YAML file's location."
+    },
     "character": {
       "type": "string",
       "minLength": 1,
@@ -37,6 +41,10 @@
       "additionalProperties": false,
       "required": ["artifact_set", "weapons"],
       "properties": {
+        "output_directory": {
+          "type": "string",
+          "description": "Directory to save the generated configs for this test. Relative to the global output directory."
+        },
         "artifact_set": { "$ref": "#/definitions/ArtifactSetChoice" },
         "weapons": {
           "type": "array",
@@ -52,6 +60,10 @@
       "additionalProperties": false,
       "required": ["weapon", "artifact_sets"],
       "properties": {
+        "output_directory": {
+          "type": "string",
+          "description": "Directory to save the generated configs for this test. Relative to the global output directory."
+        },
         "weapon": {
           "type": "string",
           "minLength": 1,

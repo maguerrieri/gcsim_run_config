@@ -8,11 +8,11 @@ import re
 import subprocess
 
 
-def run_batch(commands, csv_filename):
+def run_batch(commands, csv_path: Path):
     """
     Runs a batch of gcsim commands, parses the output, and writes to a CSV file.
     """
-    logging.info('Script started. Output CSV file: %s', csv_filename)
+    logging.info('Script started. Output CSV file: %s', csv_path)
 
     for command in commands:
         logging.info('Processing command: %s', command)
@@ -86,7 +86,7 @@ def run_batch(commands, csv_filename):
         for character in character_details:
             row.extend([character["name"], "Min DPS:", character["min"], "Max DPS:", character["max"], "Mean DPS:", character["mean"], "Std DPS:", character["sd"]])
 
-        with open(f'{csv_filename}.csv', 'a', newline='') as csvfile:
+        with open(csv_path, 'a', newline='') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(row)
             logging.info('Written row to CSV: %s', row)
@@ -100,7 +100,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Generate and run a batch of gcsim optimizer commands.")
     parser.add_argument("input_directory", help="The directory containing the .txt config files.", type=Path)
-    parser.add_argument("output_file", help="The name of the output CSV file.", type=Path)
+    parser.add_argument("output_file", help="The path of the output CSV file.", type=Path)
     args = parser.parse_args()
 
     commands = []
