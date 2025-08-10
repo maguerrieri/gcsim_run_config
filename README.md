@@ -29,11 +29,33 @@ Step 2:** **Narrow Down Weapons/Arti Sets**
 In the location you picked, create a new txt file with only the weapons/artifacts to be considered using either their full name with no spaces, no uppercase, and no special characters, or using a nickname [recognized by gcsim](https://docs.gcsim.app/reference/), one per row. To consider 2pc2pc artifact set combinations, write both sets on the same row- the program will know that since they're in the same entry they should be two 2pc sets and not one 4pc. Name your file whatever you want.
 For example, I want to compare Azurelight to LoFI and Freedom-Sworn since I'm very excited about Skirk's strong melt damage potential with Nahida buffing her, so I might make a file named SuperCoolSkirkWeps that just looks like the below lines:
 
+```
 azurelight
 lofi
 freedomsworn
+```
 
-NOTE TO JAM: WRITE THE README FOR MULTIS TOMORROW
+NOTE TO JAM: WRITE THE README FOR MULTIS TOMORROW; example:
+```yaml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/maguerrieri/gcsim-batcher/refs/heads/main/configs.schema.json
+tests:
+- weapon: absolution
+  artifact_sets:
+  - [no, esf]
+  - [esf]
+- weapon: amenomakaguechi
+  artifact_sets:
+  - [esf, no]
+  - [no]
+- artifact_set: [no]
+  weapons:
+  - aquilafavonia
+- weapon: aquilafavonia
+  artifact_sets:
+  - [no]
+  - [esf]
+  output_directory: "custom_output"
+```
 
 **Step 3:** **Create Config Batch**
 
