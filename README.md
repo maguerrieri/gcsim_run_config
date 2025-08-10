@@ -38,6 +38,7 @@ freedomsworn
 NOTE TO JAM: WRITE THE README FOR MULTIS TOMORROW; example:
 ```yaml
 # yaml-language-server: $schema=https://raw.githubusercontent.com/maguerrieri/gcsim-batcher/refs/heads/main/configs.schema.json
+character: bennett
 tests:
 - weapon: absolution
   artifact_sets:
