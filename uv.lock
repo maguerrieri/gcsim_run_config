@@ -17,7 +17,7 @@ wheels = [
 
 [[package]]
 name = "gcsim-batcher"
-version = "0.1.21"
+version = "0.1.22"
 source = { editable = "." }
 dependencies = [
     { name = "gcsim-linux-amd64", marker = "platform_machine == 'x86_64' and sys_platform == 'linux'" },
