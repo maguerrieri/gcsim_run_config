@@ -14,7 +14,7 @@ Open [their website](https://docs.astral.sh/uv/getting-started/installation/#sta
 Open a terminal (such as PowerShell) wherever you would like Sim Batcher to run and run the command: 
 uv tool install --upgrade --index https://us-west1-python.pkg.dev/gaymer-haus/python-public/simple/ gcsim-batcher
 
-Congrats! You're all set up and ready to go.
+Congrats! You're all set up and ready to go. If you ever want to update the batcher, just run the installation command above again and it should update itself.
 
 ## **Using Sim Batcher:**
 
@@ -35,50 +35,51 @@ lofi
 freedomsworn
 ```
 
-NOTE TO JAM: WRITE THE README FOR MULTIS TOMORROW; example:
+You may also want to consider multiple combinations of artifacts and/or weapons, possibly even across multiple characters. You can set this up in a yaml file, for example:
 ```yaml
 # yaml-language-server: $schema=https://raw.githubusercontent.com/maguerrieri/gcsim-batcher/refs/heads/main/configs.schema.json
-character: bennett
+character: skirk
 tests:
-- weapon: absolution
+- weapon: azurelight
   artifact_sets:
-  - [no, esf]
-  - [esf]
-- weapon: amenomakaguechi
+  - [mh]
+  - [finaleofthedeepgalleries]
+  - [glad]
+- weapon: freedomsworn
   artifact_sets:
-  - [esf, no]
-  - [no]
-- artifact_set: [no]
-  weapons:
-  - aquilafavonia
-- weapon: aquilafavonia
+  - [mh]
+  - [finaleofthedeepgalleries]
+  - [glad]
+character: emilie
+tests:
+- weapon: lumidouceelegy
   artifact_sets:
-  - [no]
-  - [esf]
-  output_directory: "custom_output"
+  - [ur]
+  - [deepwoodmemories]
+  output_directory: "SkirkBurnmeltWepBatch"
 ```
 
 **Step 3:** **Create Config Batch**
 
 Open your terminal again, and run the command below changing terms as needed: 
-gcsim-generate-batch.exe .\yoursimconfigname.txt {weapon,artifact,multi} character .\yourgearsubsetname.txt batchfoldername
+gcsim-generate-batch.exe .\yoursimconfigname.txt --output_directory=batchfoldername {weapon,artifact,multi} character .\yourgearsubsetname.txt
 
-"yoursimconfigname" should be your sim config txt file name. {weapon,artifact,multi} means you should write weapon for a weapon comparison, artifact for an artifact comparison, or multi if you used the multi variable option in Step 2. "character" should be the character. "yourgearsubsetname" should be the name of the txt file you set up in Step 2. "batchfoldername" should be the name of the folder the program will create to store all these configs- if you leave this input blank it'll automatically name it character_{weapon,artifact,multi}s.
+"yoursimconfigname" should be your sim config txt file name. "batchfoldername" should be the name of the folder the program will create to store all these configs- if you leave this input blank it'll either reference the name you gave it in the multi setup yaml or automatically name it character_{weapon,artifact,multi}s. {weapon,artifact,multi} means you should write weapon for a weapon comparison, artifact for an artifact comparison, or multi if you used the multi variable option in Step 2. "character" should be the character. "yourgearsubsetname" should be the name of the file you set up in Step 2.
 
 Example:
-gcsim-generate-batch.exe .\SkirkBurnmelt.txt weapon skirk .\SuperCoolSkirkWeps.txt SkirkBurnmeltWepBatch
+gcsim-generate-batch.exe --output_directory=SkirkBurnmeltWepBatch .\SkirkBurnmelt.txt weapon skirk .\SuperCoolSkirkWeps.txt 
 
 This should generate a whole batch of sim configs for each gearing option you listed and store them in a folder.
 
 **Step 4:** **Run Config Batch**
 
 Run the command below changing terms as needed again: 
-gcsim-run-batch.exe batchfoldername outputsheetname
+gcsim-run-batch.exe batchfoldername outputsheetname.csv
 
 "batchfoldername" is the same as above, the name of the folder where all those configs Step 3 made went. "outputsheetname" is the name of the csv where your results will be displayed.
 
 Example:
-gcsim-run-batch.exe SkirkBurnmeltWepBatch SkirkBurnmeltWepSheetRaw
+gcsim-run-batch.exe SkirkBurnmeltWepBatch SkirkBurnmeltWepSheetRaw.csv
 
 This should start going through all options one by one, optimizing them and then opening a browser window with the sim results. This will take a few minutes, depending on your CPU. Get up, stretch, get some water, pick up any trash you have sitting on your desk. Take a picture of your cat. Send a picture of your cat to someone. Say "I love you" to your cat. Check if it's done. Check Discord. Check if it's done again. Check your budget to consider if you can afford a better CPU. Check if it's done again. 
 
